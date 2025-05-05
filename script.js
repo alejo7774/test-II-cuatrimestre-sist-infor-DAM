@@ -87,13 +87,31 @@ function previousQuestion() {
     }
 }
 function validateAnswer(questionIndex) {
-  const selectedAnswers = [...document.querySelectorAll(`#answers-${questionIndex} input:checked`)]
-                         .map(input => parseInt(input.value));
+  if (!questions || questions.length === 0) {
+    console.error("La variable 'questions' no está definida o está vacía.");
+    return;
+  }
 
-  const correctAnswers = questions[questionIndex].correct;
+  const question = questions[questionIndex];
+
+  if (!question) {
+    console.error(`Pregunta no encontrada en el índice ${questionIndex}`);
+    return;
+  }
+
+  const selectedAnswers = Array.from(document.querySelectorAll(`#answers-${questionIndex} input:checked`))
+                               .map(input => parseInt(input.value));
+
+  const correctAnswers = question.correct || [];
 
   const feedbackElem = document.getElementById(`feedback-${questionIndex}`);
-  
+
+  if (selectedAnswers.length === 0) {
+    feedbackElem.textContent = "⚠️ Debes seleccionar al menos una opción.";
+    feedbackElem.style.color = "orange";
+    return;
+  }
+
   if (JSON.stringify(selectedAnswers.sort()) === JSON.stringify(correctAnswers.sort())) {
     feedbackElem.textContent = "✅ ¡Correcto!";
     feedbackElem.style.color = "green";
