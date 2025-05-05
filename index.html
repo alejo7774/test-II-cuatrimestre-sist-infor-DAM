@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Administración Redes - DAM</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Test de Preparación: Administración de Redes</h1>
+    <div id="quiz-container"></div>
+
+    <div class="nav-buttons">
+      <button onclick="previousPage()">Anterior</button>
+      <button onclick="nextPage()">Siguiente</button>
+      <button onclick="submitQuiz()">Terminar</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2 id="score"></h2>
+      <button onclick="restartQuiz()">Reiniciar Test</button>
+    </div>
+  </div>
+
+  <script src="script.question.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
