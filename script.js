@@ -86,7 +86,22 @@ function previousQuestion() {
         loadQuestionsPage();
     }
 }
+function validateAnswer(questionIndex) {
+  const selectedAnswers = [...document.querySelectorAll(`#answers-${questionIndex} input:checked`)]
+                         .map(input => parseInt(input.value));
 
+  const correctAnswers = questions[questionIndex].correct;
+
+  const feedbackElem = document.getElementById(`feedback-${questionIndex}`);
+  
+  if (JSON.stringify(selectedAnswers.sort()) === JSON.stringify(correctAnswers.sort())) {
+    feedbackElem.textContent = "✅ ¡Correcto!";
+    feedbackElem.style.color = "green";
+  } else {
+    feedbackElem.textContent = "❌ Incorrecto. Intenta de nuevo.";
+    feedbackElem.style.color = "red";
+  }
+}
 
 window.onload = () => {
   loadQuestionsPage();
