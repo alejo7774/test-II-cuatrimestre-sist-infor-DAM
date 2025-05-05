@@ -153,6 +153,8 @@ function submitQuiz() {
 function restartQuiz() {
   currentPage = 0;
   userAnswers = {}; // Limpiar todas las respuestas guardadas
+
+  // Ocultar el resultado del test
   document.getElementById("result").classList.add("hidden");
 
   // Desmarcar todas las opciones seleccionadas
@@ -160,7 +162,16 @@ function restartQuiz() {
     input.checked = false;
   });
 
-  loadQuestionsPage(); // Recargar desde la primera pregunta
+  // Limpiar feedback de respuestas previas
+  document.querySelectorAll(".feedback").forEach(feedbackElem => {
+    feedbackElem.textContent = "";
+    feedbackElem.style.color = "";
+  });
+
+  // Esperar un instante para asegurar la actualización del DOM antes de cargar el test
+  setTimeout(() => {
+    loadQuestionsPage();
+  }, 100);
 }
 window.onload = () => {
   loadQuestionsPage();
