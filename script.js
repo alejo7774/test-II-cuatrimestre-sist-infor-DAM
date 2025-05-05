@@ -87,40 +87,41 @@ function previousQuestion() {
     }
 }
 function validateAnswer(questionIndex) {
-  if (!questions || questions.length === 0) {
-    console.error("La variable 'questions' no está definida o está vacía.");
-    return;
-  }
+   console.log(`Validando pregunta ${questionIndex}`);
 
-  const question = questions[questionIndex];
+   if (!questions || questions.length === 0) {
+      console.error("La variable 'questions' no está definida o está vacía.");
+      return;
+   }
 
-  if (!question) {
-    console.error(`Pregunta no encontrada en el índice ${questionIndex}`);
-    return;
-  }
+   const question = questions[questionIndex];
 
-  const selectedAnswers = Array.from(document.querySelectorAll(`#answers-${questionIndex} input:checked`))
-                               .map(input => parseInt(input.value));
+   if (!question) {
+      console.error(`Pregunta no encontrada en el índice ${questionIndex}`);
+      return;
+   }
 
-  const correctAnswers = question.correct || [];
+   const selectedAnswers = Array.from(document.querySelectorAll(`#answers-${questionIndex} input:checked`))
+                              .map(input => parseInt(input.value));
 
-  const feedbackElem = document.getElementById(`feedback-${questionIndex}`);
+   const correctAnswers = question.correct || [];
 
-  if (selectedAnswers.length === 0) {
-    feedbackElem.textContent = "⚠️ Debes seleccionar al menos una opción.";
-    feedbackElem.style.color = "orange";
-    return;
-  }
+   const feedbackElem = document.getElementById(`feedback-${questionIndex}`);
 
-  if (JSON.stringify(selectedAnswers.sort()) === JSON.stringify(correctAnswers.sort())) {
-    feedbackElem.textContent = "✅ ¡Correcto!";
-    feedbackElem.style.color = "green";
-  } else {
-    feedbackElem.textContent = "❌ Incorrecto. Intenta de nuevo.";
-    feedbackElem.style.color = "red";
-  }
+   if (selectedAnswers.length === 0) {
+      feedbackElem.textContent = "⚠️ Debes seleccionar al menos una opción.";
+      feedbackElem.style.color = "orange";
+      return;
+   }
+
+   if (JSON.stringify(selectedAnswers.sort()) === JSON.stringify(correctAnswers.sort())) {
+      feedbackElem.textContent = "✅ ¡Correcto!";
+      feedbackElem.style.color = "green";
+   } else {
+      feedbackElem.textContent = "❌ Incorrecto. Intenta de nuevo.";
+      feedbackElem.style.color = "red";
+   }
 }
-console.log("Preguntas cargadas:", questions);
 window.onload = () => {
   loadQuestionsPage();
 };
