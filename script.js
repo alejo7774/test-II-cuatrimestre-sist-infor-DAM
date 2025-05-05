@@ -123,6 +123,33 @@ function validateAnswer(questionIndex) {
       feedbackElem.style.color = "red";
    }
 }
+function submitQuiz() {
+  let correctCount = 0;
+
+  questions.forEach((q, index) => {
+    const selectedAnswers = userAnswers[index] || [];
+    if (JSON.stringify(selectedAnswers.sort()) === JSON.stringify(q.correct.sort())) {
+      correctCount++;
+    }
+  });
+
+  const scoreElem = document.getElementById("score");
+  const resultContainer = document.getElementById("result");
+
+  // Definir criterio de aprobación
+  const passingScore = Math.ceil(questions.length * 0.7); // Aprobar con 70% de aciertos
+
+  if (correctCount >= passingScore) {
+    scoreElem.textContent = `🎉 ¡Aprobaste! Acertaste ${correctCount} de ${questions.length}.`;
+    scoreElem.style.color = "green";
+  } else {
+    scoreElem.textContent = `❌ Suspendiste. Solo acertaste ${correctCount} de ${questions.length}.`;
+    scoreElem.style.color = "red";
+  }
+
+  // Mostrar resultado y el botón "Reiniciar"
+  resultContainer.classList.remove("hidden");
+}
 window.onload = () => {
   loadQuestionsPage();
 };
