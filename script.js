@@ -117,12 +117,12 @@ function validateAnswer(questionIndex) {
       feedbackElem.textContent = "✅ ¡Correcto!";
       feedbackElem.style.color = "green";
    } else {
-      const correctText = correctAnswers.map(index => question.answers[index]).join(", ");
+      // 🚀 **Corrección importante**: Extraer respuestas correctas de la lista `answers`
+      const correctText = correctAnswers.map(index => question.answers?.[index] ?? "Error en la respuesta").join(", ");
       feedbackElem.textContent = `❌ Incorrecto. La respuesta correcta es: ${correctText}`;
       feedbackElem.style.color = "red";
    }
 }
-
 window.onload = () => {
   loadQuestionsPage();
 };
