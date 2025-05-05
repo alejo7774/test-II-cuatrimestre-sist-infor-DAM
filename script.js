@@ -102,7 +102,7 @@ function validateAnswer(questionIndex) {
     feedbackElem.style.color = "red";
   }
 }
-
+console.log("Preguntas cargadas:", questions);
 window.onload = () => {
   loadQuestionsPage();
 };
