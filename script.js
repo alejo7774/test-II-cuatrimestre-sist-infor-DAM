@@ -152,12 +152,12 @@ function submitQuiz() {
 }
 function restartQuiz() {
   currentPage = 0;
-  userAnswers = {}; // Limpiar todas las respuestas guardadas
+  userAnswers = {}; // Limpiar respuestas guardadas
 
   // Ocultar el resultado del test
   document.getElementById("result").classList.add("hidden");
 
-  // Desmarcar todas las opciones seleccionadas
+  // Remover todas las opciones seleccionadas del DOM
   document.querySelectorAll("input[type='radio'], input[type='checkbox']").forEach(input => {
     input.checked = false;
   });
@@ -168,7 +168,10 @@ function restartQuiz() {
     feedbackElem.style.color = "";
   });
 
-  // Esperar un instante para asegurar la actualización del DOM antes de cargar el test
+  // Limpiar el contenedor de preguntas antes de recargar
+  document.getElementById("quiz-container").innerHTML = "";
+
+  // Esperar un instante antes de recargar para garantizar los cambios
   setTimeout(() => {
     loadQuestionsPage();
   }, 100);
