@@ -72,18 +72,21 @@ function saveUserAnswer(questionIndex, answerIndex, isMultiple) {
 }
 
 function nextQuestion() {
-  if ((currentPage + 1) * questionsPerPage < questions.length) {
-    currentPage++;
-    loadQuestionsPage();
-  }
+    if ((currentPage + 1) * questionsPerPage < questions.length) {
+        currentPage++;
+        console.log("Página actual:", currentPage);
+        loadQuestionsPage();
+    }
 }
 
 function previousQuestion() {
-  if (currentPage > 0) {
-    currentPage--;
-    loadQuestionsPage();
-  }
+    if (currentPage > 0) {
+        currentPage--;
+        console.log("Página actual:", currentPage);
+        loadQuestionsPage();
+    }
 }
+
 
 window.onload = () => {
   loadQuestionsPage();
