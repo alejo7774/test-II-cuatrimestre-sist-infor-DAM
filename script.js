@@ -105,7 +105,6 @@ function validateAnswer(questionIndex) {
                               .map(input => parseInt(input.value));
 
    const correctAnswers = question.correct || [];
-
    const feedbackElem = document.getElementById(`feedback-${questionIndex}`);
 
    if (selectedAnswers.length === 0) {
@@ -118,7 +117,8 @@ function validateAnswer(questionIndex) {
       feedbackElem.textContent = "✅ ¡Correcto!";
       feedbackElem.style.color = "green";
    } else {
-      feedbackElem.textContent = "❌ Incorrecto. Intenta de nuevo.";
+      const correctText = correctAnswers.map(index => question.answers[index]).join(", ");
+      feedbackElem.textContent = `❌ Incorrecto. La respuesta correcta es: ${correctText}`;
       feedbackElem.style.color = "red";
    }
 }
