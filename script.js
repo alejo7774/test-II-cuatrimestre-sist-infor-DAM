@@ -122,6 +122,7 @@ function validateAnswer(questionIndex) {
       feedbackElem.style.color = "red";
    }
 }
+
 window.onload = () => {
   loadQuestionsPage();
 };
