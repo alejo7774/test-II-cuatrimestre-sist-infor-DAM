@@ -93,7 +93,3 @@ window.onload = () => {
 };
 
 
-window.onload = () => {
-  loadQuestionsPage();
-};
-
