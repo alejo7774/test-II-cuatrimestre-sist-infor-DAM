@@ -150,6 +150,18 @@ function submitQuiz() {
   // Mostrar resultado y el botón "Reiniciar"
   resultContainer.classList.remove("hidden");
 }
+function restartQuiz() {
+  currentPage = 0;
+  userAnswers = {}; // Limpiar todas las respuestas guardadas
+  document.getElementById("result").classList.add("hidden");
+
+  // Desmarcar todas las opciones seleccionadas
+  document.querySelectorAll("input[type='radio'], input[type='checkbox']").forEach(input => {
+    input.checked = false;
+  });
+
+  loadQuestionsPage(); // Recargar desde la primera pregunta
+}
 window.onload = () => {
   loadQuestionsPage();
 };
