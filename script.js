@@ -1,5 +1,5 @@
 let currentPage = 0;
-let userAnswers = [];
+let userAnswers = {}; // Se cambió a objeto para manejar múltiples respuestas
 const questionsPerPage = 5;
 
 function loadQuestionsPage() {
@@ -34,6 +34,13 @@ function loadQuestionsPage() {
       input.value = idx;
       input.id = id;
 
+      // Restaurar selección previa
+      if (userAnswers[i] && userAnswers[i].includes(idx)) {
+        input.checked = true;
+      }
+
+      input.addEventListener("change", () => saveUserAnswer(i, idx, isMultiple));
+
       const label = document.createElement("label");
       label.setAttribute("for", id);
       label.textContent = answer;
@@ -49,48 +56,20 @@ function loadQuestionsPage() {
   document.getElementById("result").classList.add("hidden");
 }
 
-
-function selectAnswer(questionIndex, answerIndex, button) {
-  userAnswers[questionIndex] = answerIndex;
-
-  const buttons = document.querySelectorAll(`#answers-${questionIndex} .answer-btn`);
-  buttons.forEach(btn => btn.classList.remove("selected"));
-  button.classList.add("selected");
-}
-
-function validateAnswer(index) {
-  const inputs = document.querySelectorAll(`#answers-${index} input`);
-  const selected = [];
-
-  inputs.forEach((input, i) => {
-    if (input.checked) {
-      selected.push(Number(input.value));
-    }
-  });
-
-  const correctAnswers = questions[index].correct;
-  const feedback = document.getElementById(`feedback-${index}`);
-
-  if (selected.length === 0) {
-    feedback.textContent = "❗ Debes seleccionar al menos una respuesta.";
-    feedback.style.color = "orange";
-    return;
-  }
-
-  const isCorrect =
-    selected.length === correctAnswers.length &&
-    selected.every(val => correctAnswers.includes(val));
-
-  if (isCorrect) {
-    feedback.textContent = "✅ ¡Correcto!";
-    feedback.style.color = "green";
+function saveUserAnswer(questionIndex, answerIndex, isMultiple) {
+  if (!isMultiple) {
+    userAnswers[questionIndex] = [answerIndex]; 
   } else {
-    const correctText = correctAnswers.map(i => questions[index].answers[i]).join(", ");
-    feedback.textContent = `❌ Incorrecto. La(s) respuesta(s) correcta(s): ${correctText}`;
-    feedback.style.color = "red";
+    if (!userAnswers[questionIndex]) {
+      userAnswers[questionIndex] = [];
+    }
+    if (userAnswers[questionIndex].includes(answerIndex)) {
+      userAnswers[questionIndex] = userAnswers[questionIndex].filter(a => a !== answerIndex);
+    } else {
+      userAnswers[questionIndex].push(answerIndex);
+    }
   }
 }
-
 
 function nextQuestion() {
   if ((currentPage + 1) * questionsPerPage < questions.length) {
@@ -106,34 +85,10 @@ function previousQuestion() {
   }
 }
 
-function submitQuiz() {
-  let score = 0;
-  questions.forEach((q, i) => {
-    if (q.correct.includes(userAnswers[i])) score++;
-  });
-
-  const result = document.getElementById("result");
-  const message = score >= questions.length * 0.6
-    ? "¡Aprobado!"
-    : "No aprobado. Intenta de nuevo.";
-
-  result.innerHTML = `
-    <h2 id="score">Has obtenido ${score} de ${questions.length} puntos</h2>
-    <p>${message}</p>
-    <button onclick="restartQuiz()">Reiniciar Test</button>
-  `;
-
-  document.getElementById("quiz-container").classList.add("hidden");
-  result.classList.remove("hidden");
-}
-
-function restartQuiz() {
-  userAnswers = [];
-  currentPage = 0;
+window.onload = () => {
   loadQuestionsPage();
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("quiz-container").classList.remove("hidden");
-}
+};
+
 
 window.onload = () => {
   loadQuestionsPage();
